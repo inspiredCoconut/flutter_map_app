@@ -27,11 +27,11 @@ class _MapViewState extends State<MapView> {
         ),
         children: [
           mapLayer(),
+          circlesMap(),
+          polygonMap(),
           MarkerLayer(markers: [
             pointMap(),
           ]),
-          circlesMap(),
-          polygonMap(),
         ],
       ),
     );
