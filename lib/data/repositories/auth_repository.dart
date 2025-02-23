@@ -21,6 +21,13 @@ class AuthRepository {
     }
   }
 
+  // Fake login for demo using json file
+  Future<User?> fakeLogin() async {
+    final String response =
+        await rootBundle.loadString('assets/json/user_demo.json');
+    return User.fromJson(json.decode(response));
+  }
+
   // Login an existing user
   Future<User?> login(String email, String password) async {
     final response = await http.post(
@@ -36,10 +43,18 @@ class AuthRepository {
     }
   }
 
-  // Fake login for demo using json file
-  Future<User?> fakeLogin() async {
-    final String response =
-        await rootBundle.loadString('assets/json/user_demo.json');
-    return User.fromJson(json.decode(response));
+  // Update the current user's profile
+  Future<User?> updateProfile(String email, String name, int age) async {
+    final response = await http.put(
+      Uri.parse(Endpoints.updateProfileUrl),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': email, 'name': name, 'age': age}),
+    );
+
+    if (response.statusCode == 200) {
+      return User.fromJson(json.decode(response.body));
+    } else {
+      return null;
+    }
   }
 }
