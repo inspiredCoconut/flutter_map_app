@@ -13,22 +13,28 @@ class Endpoints {
       'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png';
 
   // Auth endpoints
-  static const String requestTokenUrl = '$baseUrl/authentication/token/new';
-  static const String registerUrl = '$baseUrl/authentication/token/new';
-  static const String loginUrl = '$baseUrl/authentication/token/new';
+  static const String requestTokenUrl = '/authentication/token/new';
+  static const String registerUrl = '/authentication/token/new';
+  static const String loginUrl = '/authentication/token/new';
   static const String loginWithUsernameAndPasswordUrl =
-      '$baseUrl/authentication/token/validate_with_login';
-  static const String createSessionUrl = '$baseUrl/authentication/session/new';
-  static const String sessionUrl = '$baseUrl/authentication/session/new';
-  static const String accountUrl = '$baseUrl/account';
-  static const String updateProfileUrl = '$baseUrl/account';
-  static const String logoutUrl = '$baseUrl/authentication/session';
+      '/authentication/token/validate_with_login';
+  static const String createSessionUrl = '/authentication/session/new';
+  static const String sessionUrl = '/authentication/session/new';
+  static const String accountUrl = '/account';
+  static const String updateProfileUrl = '/account';
+  static const String logoutUrl = '/authentication/session';
 
 
   // User endpoints
-  static const String usersUrl = '$baseUrl/users';
-  static const String userUrl = '$baseUrl/users/{id}';
-  static const String createUserUrl = '$baseUrl/users';
-  static const String updateUserUrl = '$baseUrl/users/{id}';
-  static const String deleteUserUrl = '$baseUrl/users/{id}';
+  static const String users = '/users/';
+  static const String usersUrl = '/users';
+  static const String userUrl = '/users/{id}';
+  static const String createUserUrl = '/users';
+  static const String updateUserUrl = '/users/{id}';
+  static const String deleteUserUrl = '/users/{id}';
+  
+  // Auth 
+  static const String login = '/auth/token/';
+  static const String reLogin = '/auth/token/refresh/';
+
 }

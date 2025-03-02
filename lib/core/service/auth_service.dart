@@ -1,70 +1,65 @@
 import 'package:flutter/material.dart';
+
 import '../../data/models/user_model.dart';
 import '../../data/repositories/auth_repository.dart';
+import '../di/database_helper.dart';
 
-// AuthService class to handle user authentication
+final DatabaseHelper databaseHelper = DatabaseHelper.instance;
+
 class AuthService extends ChangeNotifier {
-  User? _currentUser;
-  final AuthRepository authRepository = AuthRepository();
+  UserModel? _currentUser;
+  final AuthRepository authRepository = AuthRepository(databaseHelper);
+  UserModel? get currentUser => _currentUser;
 
-  User? get currentUser => _currentUser;
-
-  // Register a new user
-  Future<bool> register(String email, String password) async {
-    _currentUser = await authRepository.register(email, password);
-    // Notify listeners to update the UI
-    notifyListeners();
-    return _currentUser != null;
+  Future<bool> login(String username, String password) async {
+    try {
+      UserModel user = await authRepository.loginToken(username, password);
+      await authRepository.saveUserDatabase(user);
+      //print(user);
+      _currentUser = user;
+      notifyListeners();
+      //print("returning true");
+      return true;
+    } catch (e) {
+      //print(e);
+      return false;
+    }
   }
 
-  // Login an existing user
-  Future<bool> login(String email, String password) async {
-    _currentUser = await authRepository.login(email, password);
-    // Notify listeners to update the UI
-    notifyListeners();
-    return _currentUser != null;
+  Future<bool> retreiveUser() async {
+    try {
+      _currentUser = await authRepository.retreiveUserDatabase();
+      notifyListeners();
+      return _currentUser != null;
+    } catch (e) {
+      //print(e);
+      return false;
+    }
   }
 
-  // Fake login for demo using json file
-  Future<bool> fakeLogin(String email, String password) async {
-    _currentUser = await authRepository.fakeLogin();
-    // Notify listeners to update the UI
-    notifyListeners();
-    return _currentUser != null;
-  }
-
-  // Update the current user's profile
-  Future<bool> updateProfile(String email, String name, int age) async {
-    _currentUser = await authRepository.updateProfile(email, name, age);
-    // Notify listeners to update the UI
-    notifyListeners();
-    return _currentUser != null;
-  }
-
-  // Fake update profile for only changes model
-  Future<bool> fakeUpdateProfile(String email, String name, int age) async {
-    int id = _currentUser?.id ?? 0;
-    String role = _currentUser?.role ?? 'user';
-
-    _currentUser = User(id: id, email: email, name: name, age: age, role: role);
-    // Notify listeners to update the UI
-    notifyListeners();
-    return _currentUser != null;
-  }
-
-  // Logout the current user
   void logout() {
+    authRepository.logout();
     _currentUser = null;
-    // Notify listeners to update the UI
     notifyListeners();
   }
 
-  // Check if the current user is an admin
-  bool isAdmin() {
-    return _currentUser?.role == 'admin';
+  Future<bool> loadUserDatabase() async {
+    try {
+      _currentUser = await authRepository.retreiveUserDatabase();
+      return true;
+    } catch (e) {
+      //print(e);
+      return false;
+    }
   }
 
-  // Check if the current user is authenticated
+  Future<bool> isAuthenticatedDatabase() async {
+    // ignore: unused_local_variable
+    bool status = await loadUserDatabase();
+    notifyListeners();
+    return _currentUser != null;
+  }
+
   bool isAuthenticated() {
     return _currentUser != null;
   }

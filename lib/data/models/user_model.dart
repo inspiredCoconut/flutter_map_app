@@ -1,23 +1,29 @@
-class User {
-  final int id;
-  final String name;
-  final String role;
-  final int age;
+class UserModel {
+  int? id;
+  final String username;
   final String email;
-  
-  User({required this.id, required this.name, this.role = 'user', this.age = 18, this.email = ''});
+  final String token;
+  final String refreshToken;
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(id: json['id'], name: json['name'], role: json['role'], age: json['age'], email: json['email']);
+  UserModel({this.id, required this.username, required this.email, required this.token, required this.refreshToken});
+
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id'],
+      username: json['username'],
+      email: json['email'],
+      token: json['token'],
+      refreshToken: json['refreshToken'],
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'name': name,
-      'role': role,
-      'age': age,
+      'username': username,
       'email': email,
+      'token': token,
+      'refreshToken': refreshToken,
     };
   }
 }

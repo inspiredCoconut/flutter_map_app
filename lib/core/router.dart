@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'constants/routes.dart';
-import '../views/home/home_view.dart';
 import '../views/map/map_view.dart';
 import '../views/auth/login_view.dart';
 import '../views/widgets/layout/main_layout.dart';
@@ -12,11 +11,9 @@ import 'package:flutter_map_app/core/service/locator_service.dart';
 final AuthService authService = locator<AuthService>();
 
 final GoRouter router = GoRouter(
-  initialLocation: RoutesApp.home,
+  initialLocation: RoutesApp.map,
   routes: [
     _standardRoute(RoutesApp.login, LoginView()),
-    _protectedRouteNotrasition(RoutesApp.home,
-        MainLayout(child: HomeView(title: 'Flutter Map App'))),
     _protectedRouteNotrasition(RoutesApp.map, MainLayout(child: MapView()))
   ],
 );

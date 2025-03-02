@@ -1,16 +1,15 @@
 import '../core/service/auth_service.dart';
 
 class AuthPresenter {
-  final AuthService authService;
+  final AuthService _authService;
 
-  AuthPresenter(this.authService);
+  AuthPresenter(this._authService);
 
-  // Real login
-  // Future<bool> login(String email, String password) => authService.login(email, password);
-  // Fake login
-  Future<bool> login(String email, String password) => authService.fakeLogin(email, password);
+  Future<bool> login(String username, String password) => _authService.login(username, password);
 
-  bool isAuthenticated() => authService.isAuthenticated();
-  
-  void logout() => authService.logout();
+  bool isAuthenticated() => _authService.isAuthenticated();
+
+  Future<bool> isAuthenticatedDatabase() => _authService.isAuthenticatedDatabase();
+
+  void logout() => _authService.logout();
 }
